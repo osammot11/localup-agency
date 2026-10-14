@@ -9,6 +9,7 @@
     <meta property="og:title" content="Social Media per Pasticcerie e Gelaterie | Local Up">
     <meta property="og:description" content="Social media per pasticcerie, gelaterie e panifici: reel di laboratorio, torte su misura e ordini WhatsApp. Prenota la consulenza gratuita.">
     <meta property="og:url" content="{{ route('pastry.landing') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Social Media per Pasticcerie e Gelaterie | Local Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

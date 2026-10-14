@@ -7,6 +7,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Realizzazione Siti Web per Attività Locali | Local Up">
     <meta property="og:url" content="{{ route('sites.landing') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Realizzazione Siti Web per Attività Locali | Local Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

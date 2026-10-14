@@ -9,6 +9,7 @@
     <meta property="og:title" content="Social Media Marketing per Ristoranti | Local Up">
     <meta property="og:description" content="Social media marketing per ristoranti e pizzerie: food video, Google Maps e Ads locali per più tavoli prenotati.">
     <meta property="og:url" content="{{ route('restaurants.landing') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Social Media Marketing per Ristoranti | Local Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

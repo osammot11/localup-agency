@@ -8,6 +8,7 @@
     <meta property="og:title" content="Local Up | Marketing digitale per attività locali">
     <meta property="og:description" content="Social media marketing e siti web per le attività locali in Toscana.">
     <meta property="og:url" content="{{ url('/') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Local Up | Marketing digitale per attività locali</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

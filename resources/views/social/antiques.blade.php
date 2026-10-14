@@ -9,6 +9,7 @@
     <meta property="og:title" content="Marketing per Antiquari e Gallerie d'Arte | Local Up">
     <meta property="og:description" content="Marketing per antiquari e gallerie d'arte: storytelling dei pezzi, video di dettaglio e Ads per collezionisti.">
     <meta property="og:url" content="{{ route('antiques.landing') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Marketing per Antiquari e Gallerie d'Arte | Local Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

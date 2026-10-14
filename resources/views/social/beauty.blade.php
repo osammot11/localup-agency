@@ -9,6 +9,7 @@
     <meta property="og:title" content="Social Media Marketing per Parrucchieri | Local Up">
     <meta property="og:description" content="Social media marketing per parrucchieri e centri estetici: reel, prima/dopo e Ads per riempire l'agenda.">
     <meta property="og:url" content="{{ route('beauty.landing') }}">
+    <meta name="facebook-domain-verification" content="q5ql1uy3jhtg0uopl12bgc3a00z5ba" />
     <title>Social Media Marketing per Parrucchieri | Local Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
