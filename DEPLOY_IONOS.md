@@ -1,6 +1,6 @@
 # Deploy su VPS IONOS: adv.localupitalia.com
 
-Questa guida presuppone una VPS Linux con Nginx, PHP-FPM 8.4, Composer, MySQL/MariaDB e Certbot già installati. I comandi applicativi vanno eseguiti come utente `deploy`; `sudo` serve solo per database, permessi e configurazione di sistema. La guida non esegue alcuna operazione sulla VPS.
+Questa guida presuppone una VPS Linux con Nginx, PHP-FPM 8.4, Composer, SQLite e Certbot già installati. Il database di questa app sarà **SQLite**, in un file dedicato. I comandi applicativi vanno eseguiti come utente `deploy`; `sudo` serve solo per permessi e configurazione di sistema. La guida non esegue alcuna operazione sulla VPS.
 
 Il repository è `https://github.com/osammot11/localup-agency.git`. Il percorso scelto qui è `/var/www/adv.localupitalia.com`. Ogni applicazione sulla VPS deve avere il proprio database, file `.env`, virtual host Nginx e cron Laravel.
 
@@ -12,7 +12,8 @@ Accedere via SSH come `deploy`. Verificare che il record A di `adv.localupitalia
 dig +short A adv.localupitalia.com
 dig +short AAAA adv.localupitalia.com
 php8.4 -v
-php8.4 -m | grep -Ei 'curl|mbstring|openssl|pdo_mysql|fileinfo|xml'
+php8.4 -m | grep -Ei 'curl|mbstring|openssl|pdo_sqlite|sqlite3|fileinfo|xml'
+sqlite3 --version
 composer --version
 git --version
 sudo certbot --version
@@ -26,30 +27,56 @@ sudo grep -R -E '^(user|group|listen)\s*=' /etc/php/8.4/fpm/pool.d/
 sudo nginx -T 2>/dev/null | grep -n 'server_name adv.localupitalia.com' || true
 ```
 
-## 2. Database dedicato
-
-Per questa installazione si consiglia MySQL/MariaDB, con database e utente separati dalle altre app. Aprire la console SQL con `sudo mysql` oppure con l'accesso amministrativo già in uso sulla VPS. Sostituire la password segnaposto con una password lunga e univoca, conservata nel password manager.
-
-```sql
-CREATE DATABASE localup_adv CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'localup_adv'@'127.0.0.1' IDENTIFIED BY 'SOSTITUIRE_CON_PASSWORD_UNIVOCA';
-GRANT ALL PRIVILEGES ON localup_adv.* TO 'localup_adv'@'127.0.0.1';
-```
-
-La password non va inserita nella riga di comando shell o nel repository. La connessione si può verificare con `mysql -h 127.0.0.1 -u localup_adv -p localup_adv`, che chiederà la password in modo interattivo.
-
-**Alternativa SQLite:** se si preferisce mantenere il motore usato in locale, saltare la creazione MySQL e impostare `DB_CONNECTION=sqlite` e `DB_DATABASE=/var/www/adv.localupitalia.com/database/database.sqlite` nel `.env`. Dopo il clone, creare il file con `touch database/database.sqlite`, dare a `database/` proprietario `deploy` e gruppo PHP-FPM (`sudo chown deploy:www-data database database/database.sqlite`), rendere la directory scrivibile dal gruppo (`chmod 2775 database`) e il file leggibile/scrivibile solo da `deploy` e dal gruppo (`chmod 660 database/database.sqlite`). La directory deve consentire la creazione dei file journal/WAL. Il file SQLite resta escluso da Git e va incluso nei backup. La guida seguente usa MySQL/MariaDB.
-
-## 3. Checkout e configurazione privata
+## 2. Checkout e file SQLite dedicato
 
 ```bash
 sudo install -d -o deploy -g deploy /var/www/adv.localupitalia.com
 git clone --branch main https://github.com/osammot11/localup-agency.git /var/www/adv.localupitalia.com
 cd /var/www/adv.localupitalia.com
+```
+
+Per una **nuova installazione**, creare il file database vuoto come `deploy`:
+
+```bash
+touch database/database.sqlite
+```
+
+Se invece si vogliono conservare contatti e admin del database locale, **non** creare un database vuoto: trasferire una copia coerente del database esistente. Sul computer locale, fermare eventuali scritture durante il trasferimento ed eseguire, dalla radice del progetto:
+
+```bash
+umask 077
+mkdir -p "$HOME/localup-adv-transfer"
+chmod 700 "$HOME/localup-adv-transfer"
+sqlite3 database/database.sqlite ".backup '$HOME/localup-adv-transfer/database.sqlite'"
+scp "$HOME/localup-adv-transfer/database.sqlite" deploy@IP_DELLA_VPS:/var/www/adv.localupitalia.com/database/database.sqlite
+```
+
+La copia SQLite può contenere dati personali e credenziali cifrate: usare solo SSH/SCP, eliminare la copia temporanea locale dopo averne verificato l'importazione e non inserirla in Git. In questo caso bisogna riportare nel `.env` della VPS **la stessa `APP_KEY` del database locale**; non generarne una nuova.
+
+Assegnare al file e alla directory il gruppo usato da PHP-FPM. La directory deve essere scrivibile dal gruppo per consentire a SQLite di creare journal e file WAL; gli altri utenti della VPS non devono poter leggere il database:
+
+```bash
+sudo chown deploy:www-data database database/database.sqlite
+chmod 2770 database
+chmod 660 database/database.sqlite
+```
+
+`database/database.sqlite` è escluso da Git. Questo percorso appartiene solo a questa app; non usare il database SQLite di un'altra applicazione.
+
+```bash
+sqlite3 database/database.sqlite 'PRAGMA quick_check;'
+```
+
+Il risultato atteso è `ok`. Se le altre app PHP usano lo stesso utente/gruppo `www-data`, quel pool condiviso può tecnicamente accedere anche al database di questa app: per un isolamento completo tra applicazioni serve un pool PHP-FPM dedicato con un proprio utente e gruppo.
+
+## 3. Configurazione privata
+
+```bash
+cd /var/www/adv.localupitalia.com
 cp .env.example .env
 ```
 
-Modificare `.env` con un editor direttamente sulla VPS. Impostare almeno queste voci; lasciare `APP_KEY` vuota solo fino al comando `key:generate` del passo successivo.
+Modificare `.env` con un editor direttamente sulla VPS. Per un database nuovo lasciare `APP_KEY` vuota fino al comando `key:generate` del passo successivo; per un database importato inserire qui l'`APP_KEY` originale.
 
 ```dotenv
 APP_NAME="Local Up ADV"
@@ -60,12 +87,8 @@ APP_URL=https://adv.localupitalia.com
 APP_LOCALE=it
 APP_FALLBACK_LOCALE=it
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=localup_adv
-DB_USERNAME=localup_adv
-DB_PASSWORD=SOSTITUIRE_CON_PASSWORD_UNIVOCA
+DB_CONNECTION=sqlite
+DB_DATABASE=/var/www/adv.localupitalia.com/database/database.sqlite
 
 SESSION_DRIVER=database
 SESSION_SECURE_COOKIE=true
@@ -97,13 +120,25 @@ sudo chown -R deploy:www-data storage bootstrap/cache
 sudo find storage bootstrap/cache -type d -exec chmod 2775 {} +
 sudo find storage bootstrap/cache -type f -exec chmod 664 {} +
 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+```
+
+**Solo con un database nuovo**, generare una chiave applicativa. Con un database importato saltare questo comando: la chiave originale deve già essere nel `.env`.
+
+```bash
 php8.4 artisan key:generate --force --no-interaction
+```
+
+In entrambi i casi, completare l'installazione:
+
+```bash
 php8.4 artisan migrate --force --no-interaction
 php8.4 artisan optimize --no-interaction
 php8.4 artisan migrate:status --no-interaction
 ```
 
-Verificare prima che `composer` usi PHP 8.4 anche da CLI; se usa un'altra versione, eseguire il file Composer con `php8.4` secondo la sua installazione sulla VPS. `key:generate` si esegue **solo per un database nuovo**: cambiare `APP_KEY` in seguito rende illeggibili i dati cifrati, comprese le credenziali Google Sheets e gli eventi Meta memorizzati. Se si trasferisce il database SQLite locale, trasferire in modo privato anche la sua `APP_KEY` originale e **saltare** `key:generate`; una copia del solo file SQLite non basta per decifrare quei dati.
+La chiave non va mai rigenerata in seguito: Google Sheets e gli eventi Meta memorizzati contengono dati cifrati con essa. Verificare la leggibilità del database con `php8.4 artisan migrate:status --no-interaction`; se SQLite segnala `attempt to write a readonly database`, controllare i permessi **sia** del file **sia** della directory `database/`.
+
+Verificare prima che `composer` usi PHP 8.4 anche da CLI; se usa un'altra versione, eseguire il file Composer con `php8.4` secondo la sua installazione sulla VPS.
 
 Il progetto usa CSS e JavaScript già presenti in `public/`; le pagine attuali non richiamano Vite. Non è necessario eseguire `npm install` o `npm run build` per questo deploy.
 
@@ -115,7 +150,7 @@ Questo comando è intenzionalmente interattivo e chiede nome, email e una passwo
 php8.4 artisan admin:create
 ```
 
-L'accesso sarà su `/admin/login`. Il database nuovo è vuoto: gli utenti admin e i contatti del database SQLite locale **non vengono trasferiti** dal push GitHub. Se occorre conservarli, preparare una migrazione dati separata prima di aprire il sito al pubblico.
+L'accesso sarà su `/admin/login`. Eseguire `admin:create` **solo per un database nuovo**. Se si è importato il file SQLite locale, gli utenti admin e i contatti sono già presenti: accedere con l'admin esistente. Il push GitHub non include alcun dato del database.
 
 ## 6. Virtual host Nginx dedicato
 
@@ -195,7 +230,17 @@ Controllare con `crontab -l` e `php8.4 artisan schedule:list --no-interaction`. 
 
 Aprire `https://adv.localupitalia.com/`, le cinque landing e `/admin/login`. Controllare `/up`, il login, l'invio di un contatto autorizzato, il suo arrivo nell'admin, gli eventi Meta e, dopo la configurazione in admin, la sincronizzazione Google Sheets. In caso di errore consultare `storage/logs/laravel.log` e il log errori Nginx del server.
 
-Per aggiornare il sito, prima salvare un backup del **solo** database `localup_adv` e del file `.env` in una posizione privata. Poi, come `deploy`:
+Per aggiornare il sito, salvare prima una copia **coerente** del file SQLite con il comando `.backup` di SQLite e una copia del `.env`, in una directory privata fuori dalla root web. Una normale copia del file database mentre l'app scrive può essere incompleta, soprattutto se SQLite usa WAL. Esempio come `deploy`:
+
+```bash
+mkdir -p "$HOME/backups/localup-adv"
+chmod 700 "$HOME/backups/localup-adv"
+sqlite3 /var/www/adv.localupitalia.com/database/database.sqlite ".backup '$HOME/backups/localup-adv/adv-$(date +%F-%H%M%S).sqlite'"
+cp /var/www/adv.localupitalia.com/.env "$HOME/backups/localup-adv/env-$(date +%F-%H%M%S)"
+chmod 600 "$HOME"/backups/localup-adv/*
+```
+
+Poi, come `deploy`:
 
 ```bash
 cd /var/www/adv.localupitalia.com
@@ -213,5 +258,7 @@ Non ripetere `key:generate`, non usare `migrate:fresh` e non lanciare la suite d
 - [Laravel 13: deployment](https://laravel.com/framework/docs/deployment)
 - [Laravel 13: scheduler](https://laravel.com/framework/docs/scheduling)
 - [Laravel 13: database](https://laravel.com/framework/docs/database/config)
+- [SQLite: backup coerenti](https://sqlite.org/backup.html)
+- [SQLite: file WAL e permessi](https://www.sqlite.org/wal.html)
 - [Nginx: test e reload](https://nginx.org/en/docs/switches.html)
 - [Certbot: rinnovo mirato e dry run](https://eff-certbot.readthedocs.io/en/stable/using.html#renewal)
