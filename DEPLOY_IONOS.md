@@ -218,13 +218,29 @@ sudo certbot renew --cert-name adv.localupitalia.com --dry-run
 
 ## 8. Scheduler Laravel di questa sola app
 
-Il progetto esegue ogni cinque minuti il recupero degli eventi Meta CAPI in attesa e la sincronizzazione Google Sheets. Aggiungere **una sola riga** al crontab di `deploy` con `crontab -e`, senza sostituire le righe delle altre applicazioni. Usare il percorso assoluto di `php8.4` restituito da `command -v php8.4` se diverso da `/usr/bin/php8.4`.
+Il progetto esegue ogni cinque minuti il recupero degli eventi Meta CAPI in attesa e la sincronizzazione Google Sheets. Cron deve avviare lo scheduler Laravel **ogni minuto**; sarà Laravel a decidere quando eseguire i due comandi. Accedere come `deploy` (`whoami` deve mostrare `deploy`) e controllare il percorso di PHP:
+
+```bash
+whoami
+command -v php8.4
+EDITOR=nano crontab -e
+```
+
+Se non si è collegati come `deploy`, entrare prima nella sua shell con `sudo -iu deploy`. Nel file aperto da `nano`, aggiungere **una sola riga in fondo**, senza cancellare le righe delle altre applicazioni. Se `command -v php8.4` ha restituito un percorso diverso da `/usr/bin/php8.4`, usare quello nella riga:
 
 ```cron
 * * * * * cd /var/www/adv.localupitalia.com && /usr/bin/php8.4 artisan schedule:run >> /dev/null 2>&1
 ```
 
-Controllare con `crontab -l` e `php8.4 artisan schedule:list --no-interaction`. Il codice attuale non mette lavori in coda, quindi non richiede ancora un processo `queue:work`; la connessione `database` è già predisposta se in futuro verranno aggiunti job.
+In `nano`, salvare con **Ctrl+O**, confermare con **Invio** e uscire con **Ctrl+X**. Verificare che la riga sia stata registrata e che Laravel mostri entrambe le attività:
+
+```bash
+crontab -l
+cd /var/www/adv.localupitalia.com
+php8.4 artisan schedule:list --no-interaction
+```
+
+`schedule:list` deve mostrare `meta:retry` e `sheets:sync`, entrambi ogni cinque minuti. Se `crontab -l` prima della modifica dice `no crontab for deploy`, significa soltanto che questo utente non aveva ancora attività cron. **Non usare `sudo crontab -e`**: modificherebbe il crontab di `root`, non quello di `deploy`. Il codice attuale non mette lavori in coda, quindi non richiede ancora un processo `queue:work`; la connessione `database` è già predisposta se in futuro verranno aggiunti job.
 
 ## 9. Verifica finale e aggiornamenti
 
