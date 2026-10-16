@@ -99,9 +99,20 @@ META_PIXEL_ID=1612527090508674
 META_CAPI_ACCESS_TOKEN=SOSTITUIRE_CON_TOKEN_META
 META_GRAPH_VERSION=v26.0
 META_TEST_EVENT_CODE=
+
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtp
+MAIL_HOST=SMTP_DEL_FORNITORE
+MAIL_PORT=587
+MAIL_USERNAME=UTENTE_SMTP
+MAIL_PASSWORD=PASSWORD_SMTP
+MAIL_FROM_ADDRESS=avvisi@localupitalia.com
+MAIL_FROM_NAME="Local Up ADV"
+LEAD_NOTIFICATION_EMAILS="destinatario1@example.com,destinatario2@example.com"
 ```
 
 Il token Meta CAPI va ottenuto nel pannello Meta e inserito solo nel `.env` della VPS. `META_TEST_EVENT_CODE` deve restare vuoto in produzione. Google Sheets si configura in seguito dal pannello admin: le credenziali vengono cifrate nel database con `APP_KEY`.
+Sostituire gli esempi SMTP con i valori del proprio fornitore; usare schema e porta da lui indicati (per esempio `smtps` e 465 se richiede TLS implicito). `LEAD_NOTIFICATION_EMAILS` accetta uno o più indirizzi separati da virgola. Se è vuoto, nessuna email viene accodata. La configurazione del mittente e del dominio presso il fornitore SMTP deve permettere l'invio da `MAIL_FROM_ADDRESS`.
 
 La `.env` non è tracciata da Git. Deve essere leggibile da `deploy` e dall'utente PHP-FPM, ma non da altri utenti:
 
@@ -218,7 +229,7 @@ sudo certbot renew --cert-name adv.localupitalia.com --dry-run
 
 ## 8. Scheduler Laravel di questa sola app
 
-Il progetto esegue ogni cinque minuti il recupero degli eventi Meta CAPI in attesa e la sincronizzazione Google Sheets. Cron deve avviare lo scheduler Laravel **ogni minuto**; sarà Laravel a decidere quando eseguire i due comandi. Accedere come `deploy` (`whoami` deve mostrare `deploy`) e controllare il percorso di PHP:
+Il progetto esegue ogni cinque minuti il recupero degli eventi Meta CAPI in attesa e la sincronizzazione Google Sheets. Ogni minuto avvia inoltre un worker temporaneo che elabora al massimo 25 email dei nuovi contatti dalla sola coda `lead-mail`, poi termina. Cron deve avviare lo scheduler Laravel **ogni minuto**; sarà Laravel a decidere quando eseguire i comandi. Accedere come `deploy` (`whoami` deve mostrare `deploy`) e controllare il percorso di PHP:
 
 ```bash
 whoami
@@ -232,7 +243,7 @@ Se non si è collegati come `deploy`, entrare prima nella sua shell con `sudo -i
 * * * * * cd /var/www/adv.localupitalia.com && /usr/bin/php8.4 artisan schedule:run >> /dev/null 2>&1
 ```
 
-In `nano`, salvare con **Ctrl+O**, confermare con **Invio** e uscire con **Ctrl+X**. Verificare che la riga sia stata registrata e che Laravel mostri entrambe le attività:
+In `nano`, salvare con **Ctrl+O**, confermare con **Invio** e uscire con **Ctrl+X**. Verificare che la riga sia stata registrata e che Laravel mostri tutte e tre le attività:
 
 ```bash
 crontab -l
@@ -240,11 +251,20 @@ cd /var/www/adv.localupitalia.com
 php8.4 artisan schedule:list --no-interaction
 ```
 
-`schedule:list` deve mostrare `meta:retry` e `sheets:sync`, entrambi ogni cinque minuti. Se `crontab -l` prima della modifica dice `no crontab for deploy`, significa soltanto che questo utente non aveva ancora attività cron. **Non usare `sudo crontab -e`**: modificherebbe il crontab di `root`, non quello di `deploy`. Il codice attuale non mette lavori in coda, quindi non richiede ancora un processo `queue:work`; la connessione `database` è già predisposta se in futuro verranno aggiunti job.
+`schedule:list` deve mostrare `meta:retry` e `sheets:sync` ogni cinque minuti e `queue:work` per `lead-mail` ogni minuto. Se `crontab -l` prima della modifica dice `no crontab for deploy`, significa soltanto che questo utente non aveva ancora attività cron. **Non usare `sudo crontab -e`**: modificherebbe il crontab di `root`, non quello di `deploy`. Non serve aggiungere un servizio Supervisor: lo scheduler avvia e arresta il worker di questa app.
 
 ## 9. Verifica finale e aggiornamenti
 
 Aprire `https://adv.localupitalia.com/`, le cinque landing e `/admin/login`. Controllare `/up`, il login, l'invio di un contatto autorizzato, il suo arrivo nell'admin, gli eventi Meta e, dopo la configurazione in admin, la sincronizzazione Google Sheets. In caso di errore consultare `storage/logs/laravel.log` e il log errori Nginx del server.
+
+Dopo aver configurato SMTP, inviare un contatto di prova e verificare sia la scheda admin sia l'arrivo dell'email. L'invio parte normalmente entro il minuto successivo; un messaggio accettato dal server SMTP può comunque impiegare più tempo ad arrivare nella casella. Per controllare gli invii in attesa e quelli esauriti, eseguire come `deploy` dalla directory dell'app:
+
+```bash
+php8.4 artisan queue:monitor database:lead-mail --max=1000 --no-interaction
+php8.4 artisan queue:failed --no-interaction
+```
+
+Un job email fallito può essere ripetuto dopo aver corretto SMTP con `php8.4 artisan queue:retry UUID_DEL_JOB --no-interaction`. La coda effettua fino a cinque tentativi, distanziati di almeno un minuto. Il contatto resta salvato anche quando l'email fallisce. Usare l'UUID mostrato dal comando per ripetere solo l'invio interessato.
 
 Per aggiornare il sito, salvare prima una copia **coerente** del file SQLite con il comando `.backup` di SQLite e una copia del `.env`, in una directory privata fuori dalla root web. Una normale copia del file database mentre l'app scrive può essere incompleta, soprattutto se SQLite usa WAL. Esempio come `deploy`:
 

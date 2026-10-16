@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Mail\LeadReceived;
 use App\Models\Lead;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class LandingLeadService
@@ -14,6 +16,7 @@ class LandingLeadService
         unset($data['website'], $data['consenso']);
 
         $lead = Lead::create($data + ['source' => $source, 'consented_at' => now()]);
+        $this->queueLeadEmails($lead);
         $redirect = redirect(route($landingRoute, ['success' => 1]).'#modulo');
         $consentId = app(MarketingConsent::class)->grantedId($request);
 
@@ -30,5 +33,27 @@ class LandingLeadService
         }
 
         return $redirect;
+    }
+
+    private function queueLeadEmails(Lead $lead): void
+    {
+        $recipients = collect(explode(',', (string) config('mail.lead_recipients')))
+            ->map(fn (string $recipient): string => trim($recipient))
+            ->filter()
+            ->unique(fn (string $recipient): string => strtolower($recipient));
+
+        foreach ($recipients as $recipient) {
+            if (! filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+                report(new \InvalidArgumentException('Indirizzo email non valido in LEAD_NOTIFICATION_EMAILS: '.$recipient));
+
+                continue;
+            }
+
+            try {
+                Mail::to($recipient)->queue(new LeadReceived($lead));
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+        }
     }
 }
