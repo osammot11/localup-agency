@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class MetaConversionsApi
 {
-    public function captureLead(Lead $lead, Request $request, string $consentId): string
+    public function captureLead(Lead $lead, Request $request, ?string $consentId): string
     {
         $eventId = (string) Str::uuid();
 
@@ -67,12 +67,14 @@ class MetaConversionsApi
             return;
         }
 
-        $consentGranted = DB::table('marketing_consents')
-            ->where('id', $record->consent_id)
-            ->where('status', 'granted')
-            ->exists();
+        $trackingAllowed = $record->consent_id === null
+            ? config('services.meta.track_without_consent') === true
+            : DB::table('marketing_consents')
+                ->where('id', $record->consent_id)
+                ->where('status', 'granted')
+                ->exists();
 
-        if (! $consentGranted) {
+        if (! $trackingAllowed) {
             $this->finish($eventId, 'cancelled');
 
             return;

@@ -18,9 +18,10 @@ class LandingLeadService
         $lead = Lead::create($data + ['source' => $source, 'consented_at' => now()]);
         $this->queueLeadEmails($lead);
         $redirect = redirect(route($landingRoute, ['success' => 1]).'#modulo');
-        $consentId = app(MarketingConsent::class)->grantedId($request);
+        $trackWithoutConsent = config('services.meta.track_without_consent') === true;
+        $consentId = $trackWithoutConsent ? null : app(MarketingConsent::class)->grantedId($request);
 
-        if ($consentId === null || ! config('services.meta.pixel_id')) {
+        if ((! $trackWithoutConsent && $consentId === null) || ! config('services.meta.pixel_id')) {
             return $redirect;
         }
 

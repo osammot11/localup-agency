@@ -104,7 +104,7 @@
         </div>
         <div class="home-shell home-footer-bottom">
             <span>© {{ date('Y') }} Local Up · P.IVA 02727380467</span>
-            <nav aria-label="Link legali"><a href="https://localupitalia.com/privacy-policy">Privacy</a><a href="https://localupitalia.com/cookie-policy">Cookie</a><a href="https://localupitalia.com/termini-e-condizioni">Termini</a><button type="button" class="cookie-preferences-open">Preferenze cookie</button></nav>
+            <nav aria-label="Link legali"><a href="https://localupitalia.com/privacy-policy">Privacy</a><a href="https://localupitalia.com/cookie-policy">Cookie</a><a href="https://localupitalia.com/termini-e-condizioni">Termini</a>@unless(config('services.meta.track_without_consent'))<button type="button" class="cookie-preferences-open">Preferenze cookie</button>@endunless</nav>
         </div>
     </footer>
     @include('partials.meta-tracking')

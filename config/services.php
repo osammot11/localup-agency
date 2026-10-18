@@ -40,6 +40,7 @@ return [
         'access_token' => env('META_CAPI_ACCESS_TOKEN'),
         'graph_version' => env('META_GRAPH_VERSION', 'v26.0'),
         'test_event_code' => env('META_TEST_EVENT_CODE'),
+        'track_without_consent' => env('META_TRACK_WITHOUT_CONSENT', true),
     ],
 
 ];

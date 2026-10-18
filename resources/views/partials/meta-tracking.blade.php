@@ -1,8 +1,10 @@
 @php
-    $marketingState = app(\App\Services\MarketingConsent::class)->state(request());
+    $trackWithoutConsent = config('services.meta.track_without_consent') === true;
+    $marketingState = $trackWithoutConsent ? null : app(\App\Services\MarketingConsent::class)->state(request());
     $metaPixelId = config('services.meta.pixel_id');
 @endphp
 
+@unless($trackWithoutConsent)
 <aside class="cookie-panel" id="cookie-panel" aria-labelledby="cookie-panel-title" @if($marketingState !== null) hidden @endif>
     <h2 id="cookie-panel-title">Cookie e tracciamento</h2>
     <p>Con il tuo consenso usiamo Meta Pixel e Conversions API per misurare le visite e le richieste inviate. Puoi rifiutare e continuare a usare il sito, oppure cambiare scelta in qualsiasi momento.</p>
@@ -13,8 +15,9 @@
     </div>
 </aside>
 <script src="{{ asset('js/cookie-preferences.js') }}" defer></script>
+@endunless
 
-@if($marketingState === 'granted' && is_string($metaPixelId) && preg_match('/^\d+$/', $metaPixelId))
+@if(($trackWithoutConsent || $marketingState === 'granted') && is_string($metaPixelId) && preg_match('/^\d+$/', $metaPixelId))
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', @json($metaPixelId));
