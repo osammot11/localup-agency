@@ -13,7 +13,7 @@ class MarketingConsentController extends Controller
     {
         $data = $request->validate([
             'choice' => ['required', 'in:granted,rejected'],
-            'return_to' => ['required', Rule::in(['/', '/social/ristoranti', '/social/beauty', '/social/antiquariato', '/social/pasticcerie', '/siti'])],
+            'return_to' => ['required', Rule::in(['/', '/social/ristoranti', '/social/ristoranti-v2', '/social/beauty', '/social/beauty-v2', '/social/antiquariato', '/social/antiquariato-v2', '/social/pasticcerie', '/social/pasticcerie-v2', '/siti', '/siti-v2'])],
         ]);
 
         $cookie = $consent->record($request, $data['choice']);

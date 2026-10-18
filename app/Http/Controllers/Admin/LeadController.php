@@ -58,7 +58,7 @@ class LeadController extends Controller
             ->when($source !== '', fn (Builder $query) => $query->where('source', $source))
             ->when($search !== '', function (Builder $query) use ($search): void {
                 $query->where(function (Builder $query) use ($search): void {
-                    foreach (['nome', 'cognome', 'email', 'telefono', 'attivita'] as $column) {
+                    foreach (['nome', 'cognome', 'email', 'telefono', 'attivita', 'comune', 'profilo_instagram'] as $column) {
                         $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 });
@@ -83,10 +83,15 @@ class LeadController extends Controller
     {
         return [
             'social/ristoranti' => 'Ristoranti',
+            'social/ristoranti-v2' => 'Ristoranti · mese gratuito',
             'social/beauty' => 'Beauty',
+            'social/beauty-v2' => 'Beauty · mese gratuito',
             'social/antiquariato' => 'Antiquariato',
+            'social/antiquariato-v2' => 'Antiquariato · mese gratuito',
             'social/pasticcerie' => 'Pasticcerie',
+            'social/pasticcerie-v2' => 'Pasticcerie · mese gratuito',
             'siti' => 'Siti web',
+            'siti-v2' => 'Siti web · demo gratuita',
         ];
     }
 }

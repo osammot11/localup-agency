@@ -7,10 +7,12 @@
 <body>
     <h1>Nuovo contatto ricevuto</h1>
     <p><strong>Nome:</strong> {{ $lead->nome }}</p>
-    <p><strong>Cognome:</strong> {{ $lead->cognome }}</p>
+    @if($lead->cognome)<p><strong>Cognome:</strong> {{ $lead->cognome }}</p>@endif
     <p><strong>Email:</strong> {{ $lead->email }}</p>
     <p><strong>Telefono:</strong> {{ $lead->telefono }}</p>
     <p><strong>Attività:</strong> {{ $lead->attivita }}</p>
+    @if($lead->comune)<p><strong>Comune:</strong> {{ $lead->comune }}</p>@endif
+    @if($lead->profilo_instagram)<p><strong>Profilo Instagram:</strong> {{ $lead->profilo_instagram }}</p>@endif
     <p><strong>Settore:</strong> {{ $lead->settore }}</p>
     <p><strong>Sito attuale:</strong> {{ $lead->sito_attuale ?: '—' }}</p>
     <p><strong>Landing:</strong> {{ $lead->source }}</p>

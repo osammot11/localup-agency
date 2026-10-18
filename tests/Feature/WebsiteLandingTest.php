@@ -13,7 +13,8 @@ class WebsiteLandingTest extends TestCase
     {
         $this->get(route('sites.landing'))
             ->assertOk()
-            ->assertSee('850 € + IVA')
+            ->assertSee('850 €')
+            ->assertDontSee('850 € + IVA')
             ->assertSee('Aziende e attività che ci hanno scelto')
             ->assertSee('Richiedi la mia demo gratuita');
     }

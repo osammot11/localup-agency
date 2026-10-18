@@ -67,6 +67,11 @@ class GoogleSheetsIntegrationTest extends TestCase
             if (str_contains($url, ':batchUpdate')) {
                 return Http::response(['replies' => [['addSheet' => []]]]);
             }
+            if ($request->method() === 'PUT' && str_contains($url, 'L1%3AM1')) {
+                $rows[0] = array_merge($rows[0], $request['values'][0]);
+
+                return Http::response(['updatedCells' => 2]);
+            }
             if (str_contains($url, '/values/') && str_contains($url, ':append')) {
                 if ($appendStatus !== null) {
                     return Http::response(['error' => 'temporary'], $appendStatus);
@@ -75,7 +80,7 @@ class GoogleSheetsIntegrationTest extends TestCase
 
                 return Http::response(['updates' => ['updatedRows' => 1]]);
             }
-            if (str_contains($url, '/values/') && str_contains($url, 'A1%3AK1')) {
+            if (str_contains($url, '/values/') && str_contains($url, 'A1%3AM1')) {
                 return Http::response(['values' => $rows ? [$rows[0]] : []]);
             }
             if (str_contains($url, '/values/') && str_contains($url, 'A2%3AA')) {
@@ -163,6 +168,27 @@ class GoogleSheetsIntegrationTest extends TestCase
         $this->post(route('admin.google-sheets.sync'))->assertSessionHas('status');
         $this->assertCount(2, $rows);
         $this->assertDatabaseCount('google_sheets_exports', 1);
+    }
+
+    public function test_existing_sheet_gains_restaurant_trial_columns_without_losing_previous_rows(): void
+    {
+        $lead = $this->lead();
+        $lead->update(['comune' => 'Lucca', 'profilo_instagram' => '@osteria']);
+        $this->configure();
+        $rows = [
+            ['ID contatto', 'Ricevuto (Europe/Rome)', 'Nome', 'Cognome', 'Email', 'Telefono', 'Attività', 'Settore', 'Sito web', 'Landing', 'Consenso al ricontatto (Europe/Rome)'],
+            ['99', '2026-10-01 10:00:00', 'Altro', 'Cliente', 'altro@example.com', '123', 'Altro locale', 'Ristorazione', '', 'social/ristoranti', '2026-10-01 10:00:00'],
+        ];
+        $this->fakeGoogle($rows);
+
+        $this->post(route('admin.google-sheets.sync'))->assertSessionHas('status');
+
+        $this->assertSame('Comune', $rows[0][11]);
+        $this->assertSame('Profilo Instagram', $rows[0][12]);
+        $this->assertSame('99', $rows[1][0]);
+        $this->assertSame('Lucca', $rows[2][11]);
+        $this->assertSame('@osteria', $rows[2][12]);
+        Http::assertSent(fn (ClientRequest $request) => $request->method() === 'PUT' && str_contains($request->url(), 'L1%3AM1'));
     }
 
     public function test_change_of_destination_backfills_existing_contacts(): void

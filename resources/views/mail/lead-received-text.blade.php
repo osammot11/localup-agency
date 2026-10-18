@@ -1,10 +1,15 @@
 Nuovo contatto ricevuto
 
 Nome: {!! $lead->nome !!}
-Cognome: {!! $lead->cognome !!}
+@if($lead->cognome)Cognome: {!! $lead->cognome !!}
+@endif
 Email: {!! $lead->email !!}
 Telefono: {!! $lead->telefono !!}
 Attività: {!! $lead->attivita !!}
+@if($lead->comune)Comune: {!! $lead->comune !!}
+@endif
+@if($lead->profilo_instagram)Profilo Instagram: {!! $lead->profilo_instagram !!}
+@endif
 Settore: {!! $lead->settore !!}
 Sito attuale: {!! $lead->sito_attuale ?: '—' !!}
 Landing: {!! $lead->source !!}

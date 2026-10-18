@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['nome', 'cognome', 'email', 'telefono', 'attivita', 'settore', 'sito_attuale', 'source', 'consented_at'])]
+#[Fillable(['nome', 'cognome', 'email', 'telefono', 'attivita', 'settore', 'sito_attuale', 'comune', 'profilo_instagram', 'source', 'consented_at'])]
 class Lead extends Model
 {
     protected function casts(): array

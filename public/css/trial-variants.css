@@ -1,0 +1,13 @@
+.trial-variant-beauty{--trial-red:#bd315c;--trial-dark-red:#862243}
+.trial-variant-beauty .trial-hero-art,.trial-variant-beauty .trial-final{background:linear-gradient(135deg,#db6b8a,#ad315b 62%,#76233e)}
+.trial-variant-antiques{--trial-red:#a4462e;--trial-dark-red:#713524}
+.trial-variant-antiques .trial-hero-art,.trial-variant-antiques .trial-final{background:linear-gradient(135deg,#ba7350,#91412f 62%,#5b2f24)}
+.trial-variant-pastry{--trial-red:#b33f49;--trial-dark-red:#812d38}
+.trial-variant-pastry .trial-hero-art,.trial-variant-pastry .trial-final{background:linear-gradient(135deg,#d27779,#b33f49 62%,#742c37)}
+.trial-variant-sites{--trial-red:#a92736;--trial-dark-red:#76212c}
+.trial-variant-sites .trial-hero-art,.trial-variant-sites .trial-final{background:linear-gradient(135deg,#cc5966,#a92736 62%,#64212e)}
+.trial-variant-sites .trial-art-plate span{font-size:78px;letter-spacing:-.08em;padding-right:0}
+.trial-variant-sites .trial-art-plate strong{font-size:34px;letter-spacing:-.05em}
+.trial-variant-sites .trial-zero{font-size:clamp(56px,6vw,86px);letter-spacing:-.07em}
+@media(max-width:700px){.trial-variant-sites .trial-art-plate span{font-size:60px}.trial-variant-sites .trial-art-plate strong{font-size:27px}.trial-variant-sites .trial-zero{flex-wrap:wrap;gap:10px;font-size:clamp(55px,12vw,74px)}}
+@media(max-width:400px){.trial-variant .trial-header-link{white-space:normal;min-width:0}.trial-variant-sites .trial-art-plate span{font-size:51px}.trial-variant-sites .trial-art-plate strong{font-size:24px}}

@@ -60,10 +60,12 @@
                 @endif
             </div>
             <div class="detail-field"><div><p class="detail-label">Attività</p><p class="detail-value">{{ $lead->attivita }}</p></div></div>
+            @if($lead->comune)<div class="detail-field"><div><p class="detail-label">Comune</p><p class="detail-value">{{ $lead->comune }}</p></div></div>@endif
+            @if($lead->profilo_instagram)<div class="detail-field"><div><p class="detail-label">Profilo Instagram</p><p class="detail-value" id="contact-instagram">{{ $lead->profilo_instagram }}</p></div><button class="copy-button" type="button" data-copy-target="contact-instagram" aria-label="Copia profilo Instagram">Copia</button></div>@endif
             <div class="detail-field"><div><p class="detail-label">Settore</p><p class="detail-value">{{ $lead->settore }}</p></div></div>
-            <div class="detail-field"><div><p class="detail-label">Landing</p><p class="detail-value">{{ match($lead->source) { 'social/ristoranti' => 'Ristoranti', 'social/beauty' => 'Beauty', 'social/antiquariato' => 'Antiquariato', 'social/pasticcerie' => 'Pasticcerie', 'siti' => 'Siti web', default => $lead->source } }}</p></div></div>
+            <div class="detail-field"><div><p class="detail-label">Landing</p><p class="detail-value">{{ match($lead->source) { 'social/ristoranti' => 'Ristoranti', 'social/ristoranti-v2' => 'Ristoranti · mese gratuito', 'social/beauty' => 'Beauty', 'social/beauty-v2' => 'Beauty · mese gratuito', 'social/antiquariato' => 'Antiquariato', 'social/antiquariato-v2' => 'Antiquariato · mese gratuito', 'social/pasticcerie' => 'Pasticcerie', 'social/pasticcerie-v2' => 'Pasticcerie · mese gratuito', 'siti' => 'Siti web', 'siti-v2' => 'Siti web · demo gratuita', default => $lead->source } }}</p></div></div>
             <div class="detail-field"><div><p class="detail-label">Consenso al ricontatto</p><p class="detail-value">{{ $lead->consented_at?->format('d/m/Y alle H:i') ?: '—' }}</p></div></div>
-            <div class="detail-field"><div><p class="detail-label">Meta CAPI</p><p class="detail-value">{{ match($metaStatus) { 'sent' => 'Inviato', 'pending' => 'In attesa', 'failed' => 'Errore', 'cancelled' => 'Annullato', 'expired' => 'Scaduto', default => 'Senza consenso marketing' } }}</p></div></div>
+            <div class="detail-field"><div><p class="detail-label">Meta CAPI</p><p class="detail-value">{{ match($metaStatus) { 'sent' => 'Inviato', 'pending' => 'In attesa', 'failed' => 'Errore', 'cancelled' => 'Annullato', 'expired' => 'Scaduto', default => 'Non inviato' } }}</p></div></div>
         </section>
         <p class="copy-feedback" role="status" aria-live="polite"></p>
     </main>

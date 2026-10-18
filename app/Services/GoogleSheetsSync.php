@@ -19,7 +19,7 @@ class GoogleSheetsSync
 
     private const SHEETS_URL = 'https://sheets.googleapis.com/v4/spreadsheets/';
 
-    private const HEADERS = ['ID contatto', 'Ricevuto (Europe/Rome)', 'Nome', 'Cognome', 'Email', 'Telefono', 'Attività', 'Settore', 'Sito web', 'Landing', 'Consenso al ricontatto (Europe/Rome)'];
+    private const HEADERS = ['ID contatto', 'Ricevuto (Europe/Rome)', 'Nome', 'Cognome', 'Email', 'Telefono', 'Attività', 'Settore', 'Sito web', 'Landing', 'Consenso al ricontatto (Europe/Rome)', 'Comune', 'Profilo Instagram'];
 
     /** @return array{exported: int, remaining: int} */
     public function sync(int $limit = 50): array
@@ -147,13 +147,19 @@ class GoogleSheetsSync
                 ->post($base.':batchUpdate', ['requests' => [['addSheet' => ['properties' => ['title' => $sheetName]]]]]));
         }
 
-        $headerRange = $this->range($sheetName, 'A1:K1');
+        $headerRange = $this->range($sheetName, 'A1:M1');
         $headerResponse = $this->check(Http::withToken($token)->connectTimeout(3)->timeout(10)
             ->get($base.'/values/'.$headerRange));
         $existingHeader = $headerResponse->json('values.0');
 
         if ($existingHeader === null) {
             $this->appendRow($token, $spreadsheetId, $sheetName, self::HEADERS);
+        } elseif ($existingHeader === array_slice(self::HEADERS, 0, 11)) {
+            $this->check(Http::withToken($token)->connectTimeout(3)->timeout(10)
+                ->put($base.'/values/'.$this->range($sheetName, 'L1:M1').'?valueInputOption=RAW', [
+                    'majorDimension' => 'ROWS',
+                    'values' => [array_slice(self::HEADERS, 11)],
+                ]));
         } elseif ($existingHeader !== self::HEADERS) {
             throw new RuntimeException('La scheda selezionata contiene intestazioni diverse. Scegli una scheda vuota o una già creata da Local Up.');
         }
@@ -176,7 +182,7 @@ class GoogleSheetsSync
 
     private function appendRow(string $token, string $spreadsheetId, string $sheetName, array $row): void
     {
-        $url = self::SHEETS_URL.$spreadsheetId.'/values/'.$this->range($sheetName, 'A:K')
+        $url = self::SHEETS_URL.$spreadsheetId.'/values/'.$this->range($sheetName, 'A:M')
             .':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS';
         $response = $this->check(Http::withToken($token)->connectTimeout(3)->timeout(12)
             ->post($url, ['majorDimension' => 'ROWS', 'values' => [$row]]));
@@ -200,6 +206,8 @@ class GoogleSheetsSync
             $lead->sito_attuale ?? '',
             $lead->source,
             $lead->consented_at?->timezone('Europe/Rome')->format('Y-m-d H:i:s') ?? '',
+            $lead->comune ?? '',
+            $lead->profilo_instagram ?? '',
         ];
     }
 
