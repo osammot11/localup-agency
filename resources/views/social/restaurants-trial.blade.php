@@ -15,9 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/restaurants-trial.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
     <script src="{{ asset('js/restaurants-trial.js') }}" defer></script>
 </head>
-<body class="trial-page">
+<body class="trial-page" data-submitted-form="{{ old('_form_placement') }}">
     <a class="trial-skip" href="#contenuto">Vai al contenuto</a>
     <header class="trial-header">
         <div class="trial-wrap trial-header-inner">
@@ -36,7 +37,7 @@
                     <h1 id="trial-title">Il tuo ristorante fa venire fame. <em>Il tuo profilo lo dimostra?</em></h1>
                     <p class="trial-lead">Prima di prenotare, le persone guardano dove mangeranno. Per un mese veniamo nel tuo locale, creiamo foto e video dei tuoi piatti, scriviamo i testi e pubblichiamo i contenuti sui tuoi social.</p>
                     <p class="trial-promise">La gestione del primo mese è gratuita. <strong>Poi decidi tu se continuare.</strong></p>
-                    <a class="trial-button" href="#modulo">Richiedi il mese gratuito <span aria-hidden="true">↗</span></a>
+                    <a id="modulo-hero" class="trial-button" href="#modulo">Richiedi il mese gratuito <span aria-hidden="true">↗</span></a>
                     <p class="trial-under-cta">Compila una breve richiesta. Ti ricontattiamo per conoscere il ristorante, verificare la disponibilità e spiegarti come funziona la prova.</p>
                 </div>
                 <div class="trial-hero-art" aria-hidden="true">

@@ -17,47 +17,47 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/social/ristoranti', [RestaurantLandingController::class, 'show'])->name('restaurants.landing');
-Route::post('/social/ristoranti', [RestaurantLandingController::class, 'store'])
+Route::get('/social/ristoranti-v2', [RestaurantLandingController::class, 'show'])->name('restaurants.landing');
+Route::post('/social/ristoranti-v2', [RestaurantLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('restaurants.lead');
 
-Route::get('/social/ristoranti-v2', [RestaurantTrialLandingController::class, 'show'])->name('restaurants-trial.landing');
-Route::post('/social/ristoranti-v2', [RestaurantTrialLandingController::class, 'store'])
+Route::get('/social/ristoranti', [RestaurantTrialLandingController::class, 'show'])->name('restaurants-trial.landing');
+Route::post('/social/ristoranti', [RestaurantTrialLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('restaurants-trial.lead');
 
-Route::get('/social/beauty', [BeautyLandingController::class, 'show'])->name('beauty.landing');
-Route::post('/social/beauty', [BeautyLandingController::class, 'store'])
+Route::get('/social/beauty-v2', [BeautyLandingController::class, 'show'])->name('beauty.landing');
+Route::post('/social/beauty-v2', [BeautyLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('beauty.lead');
 
-Route::get('/social/beauty-v2', [TrialLandingController::class, 'show'])->defaults('variant', 'beauty')->name('beauty-trial.landing');
-Route::post('/social/beauty-v2', [TrialLandingController::class, 'store'])->defaults('variant', 'beauty')->middleware('throttle:5,1')->name('beauty-trial.lead');
+Route::get('/social/beauty', [TrialLandingController::class, 'show'])->defaults('variant', 'beauty')->name('beauty-trial.landing');
+Route::post('/social/beauty', [TrialLandingController::class, 'store'])->defaults('variant', 'beauty')->middleware('throttle:5,1')->name('beauty-trial.lead');
 
-Route::get('/social/antiquariato', [AntiquesLandingController::class, 'show'])->name('antiques.landing');
-Route::post('/social/antiquariato', [AntiquesLandingController::class, 'store'])
+Route::get('/social/antiquariato-v2', [AntiquesLandingController::class, 'show'])->name('antiques.landing');
+Route::post('/social/antiquariato-v2', [AntiquesLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('antiques.lead');
 
-Route::get('/social/antiquariato-v2', [TrialLandingController::class, 'show'])->defaults('variant', 'antiques')->name('antiques-trial.landing');
-Route::post('/social/antiquariato-v2', [TrialLandingController::class, 'store'])->defaults('variant', 'antiques')->middleware('throttle:5,1')->name('antiques-trial.lead');
+Route::get('/social/antiquariato', [TrialLandingController::class, 'show'])->defaults('variant', 'antiques')->name('antiques-trial.landing');
+Route::post('/social/antiquariato', [TrialLandingController::class, 'store'])->defaults('variant', 'antiques')->middleware('throttle:5,1')->name('antiques-trial.lead');
 
-Route::get('/social/pasticcerie', [PastryLandingController::class, 'show'])->name('pastry.landing');
-Route::post('/social/pasticcerie', [PastryLandingController::class, 'store'])
+Route::get('/social/pasticcerie-v2', [PastryLandingController::class, 'show'])->name('pastry.landing');
+Route::post('/social/pasticcerie-v2', [PastryLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('pastry.lead');
 
-Route::get('/social/pasticcerie-v2', [TrialLandingController::class, 'show'])->defaults('variant', 'pastry')->name('pastry-trial.landing');
-Route::post('/social/pasticcerie-v2', [TrialLandingController::class, 'store'])->defaults('variant', 'pastry')->middleware('throttle:5,1')->name('pastry-trial.lead');
+Route::get('/social/pasticcerie', [TrialLandingController::class, 'show'])->defaults('variant', 'pastry')->name('pastry-trial.landing');
+Route::post('/social/pasticcerie', [TrialLandingController::class, 'store'])->defaults('variant', 'pastry')->middleware('throttle:5,1')->name('pastry-trial.lead');
 
-Route::get('/siti', [WebsiteLandingController::class, 'show'])->name('sites.landing');
-Route::post('/siti', [WebsiteLandingController::class, 'store'])
+Route::get('/siti-v2', [WebsiteLandingController::class, 'show'])->name('sites.landing');
+Route::post('/siti-v2', [WebsiteLandingController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('sites.lead');
 
-Route::get('/siti-v2', [TrialLandingController::class, 'show'])->defaults('variant', 'sites')->name('sites-trial.landing');
-Route::post('/siti-v2', [TrialLandingController::class, 'store'])->defaults('variant', 'sites')->middleware('throttle:5,1')->name('sites-trial.lead');
+Route::get('/siti', [TrialLandingController::class, 'show'])->defaults('variant', 'sites')->name('sites-trial.landing');
+Route::post('/siti', [TrialLandingController::class, 'store'])->defaults('variant', 'sites')->middleware('throttle:5,1')->name('sites-trial.lead');
 
 Route::post('/tracking/consent', [MarketingConsentController::class, 'store'])
     ->middleware('throttle:20,1')

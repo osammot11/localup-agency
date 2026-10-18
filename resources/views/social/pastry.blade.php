@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
 </head>
-<body>
+<body data-submitted-form="{{ old('_form_placement') }}">
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="{{ route('pastry.landing') }}" aria-label="Local Up, torna all'inizio"><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"></a>
@@ -30,7 +31,7 @@
                 <p class="eyebrow">— Per pasticcerie e gelaterie della Toscana che vogliono più ordini, non solo più vetrine piene</p>
                 <h1>Più ordini di <em>torte su misura</em> e una vetrina che si svuota ogni giorno</h1>
                 <p class="hero-copy">Ti portiamo nuovi clienti della tua zona e ordini per compleanni, matrimoni e feste, così il lavoro non dipende più da chi passa per caso. Tu pensi a creare: a farti scegliere ci pensiamo noi.</p>
-                <a class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>

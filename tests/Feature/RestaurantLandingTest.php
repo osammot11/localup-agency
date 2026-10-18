@@ -36,6 +36,22 @@ class RestaurantLandingTest extends TestCase
         ]);
     }
 
+    public function test_hero_form_returns_to_its_own_confirmation(): void
+    {
+        $this->post(route('restaurants.lead'), [
+            'nome' => 'Mario',
+            'cognome' => 'Rossi',
+            'email' => 'mario@example.com',
+            'telefono' => '+39 320 000 0000',
+            'attivita' => 'Osteria del Podere',
+            'settore' => 'Ristorazione',
+            'consenso' => '1',
+            '_form_placement' => 'hero',
+        ])->assertRedirect(route('restaurants.landing', ['success' => 1]).'#modulo-hero');
+
+        $this->assertDatabaseCount('leads', 1);
+    }
+
     public function test_lead_requires_consent_and_rejects_honeypot(): void
     {
         $data = [

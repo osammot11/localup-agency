@@ -17,7 +17,8 @@ class LandingLeadService
 
         $lead = Lead::create($data + ['source' => $source, 'consented_at' => now()]);
         $this->queueLeadEmails($lead);
-        $redirect = redirect(route($landingRoute, ['success' => 1]).'#modulo');
+        $formAnchor = $request->input('_form_placement') === 'hero' ? '#modulo-hero' : '#modulo';
+        $redirect = redirect(route($landingRoute, ['success' => 1]).$formAnchor);
         $trackWithoutConsent = config('services.meta.track_without_consent') === true;
         $consentId = $trackWithoutConsent ? null : app(MarketingConsent::class)->grantedId($request);
 

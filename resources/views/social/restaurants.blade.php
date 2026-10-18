@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
 </head>
-<body>
+<body data-submitted-form="{{ old('_form_placement') }}">
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="{{ route('restaurants.landing') }}" aria-label="Local Up, torna all'inizio"><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"></a>
@@ -30,7 +31,7 @@
                 <p class="eyebrow">— Per ristoratori della Toscana stanchi di vedere tavoli vuoti in settimana</p>
                 <h1>Sala piena <em>anche il martedì sera</em>, non solo nel weekend</h1>
                 <p class="hero-copy">Ti portiamo nuovi clienti della tua zona e facciamo tornare quelli che hai già, così ogni tavolo libero diventa una prenotazione. Tu pensi alla cucina: a farti scegliere ci pensiamo noi.</p>
-                <a class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>

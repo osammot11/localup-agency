@@ -60,27 +60,27 @@
                 </div>
 
                 <div class="home-services-grid">
-                    <a class="home-service-card home-service-featured" href="{{ route('sites.landing') }}">
+                    <a class="home-service-card home-service-featured" href="{{ route('sites-trial.landing') }}">
                         <span class="home-service-top"><span>01 / Presenza online</span><span class="home-service-arrow" aria-hidden="true">↗</span></span>
                         <span class="home-service-body"><span class="home-service-icon" aria-hidden="true">▣</span><strong>Siti web che parlano della tua attività.</strong><span>Una presenza digitale chiara, curata e facile da usare. Dalla prima visita al primo contatto.</span></span>
                         <span class="home-service-bottom">Scopri i siti web <span aria-hidden="true">→</span></span>
                     </a>
-                    <a class="home-service-card" href="{{ route('restaurants.landing') }}">
+                    <a class="home-service-card" href="{{ route('restaurants-trial.landing') }}">
                         <span class="home-service-top"><span>02 / Social media</span><span class="home-service-arrow" aria-hidden="true">↗</span></span>
                         <span class="home-service-body"><span class="home-service-icon" aria-hidden="true">◈</span><strong>Ristoranti</strong><span>Contenuti e campagne pensati per far venire voglia di sedersi al tuo tavolo.</span></span>
                         <span class="home-service-bottom">Scopri il percorso <span aria-hidden="true">→</span></span>
                     </a>
-                    <a class="home-service-card" href="{{ route('beauty.landing') }}">
+                    <a class="home-service-card" href="{{ route('beauty-trial.landing') }}">
                         <span class="home-service-top"><span>03 / Social media</span><span class="home-service-arrow" aria-hidden="true">↗</span></span>
                         <span class="home-service-body"><span class="home-service-icon" aria-hidden="true">✳</span><strong>Beauty</strong><span>Racconta la cura, lo stile e le persone dietro il tuo salone o centro estetico.</span></span>
                         <span class="home-service-bottom">Scopri il percorso <span aria-hidden="true">→</span></span>
                     </a>
-                    <a class="home-service-card" href="{{ route('antiques.landing') }}">
+                    <a class="home-service-card" href="{{ route('antiques-trial.landing') }}">
                         <span class="home-service-top"><span>04 / Social media</span><span class="home-service-arrow" aria-hidden="true">↗</span></span>
                         <span class="home-service-body"><span class="home-service-icon" aria-hidden="true">✦</span><strong>Antiquariato</strong><span>Dai spazio al valore degli oggetti, alla loro storia e a ciò che li rende unici.</span></span>
                         <span class="home-service-bottom">Scopri il percorso <span aria-hidden="true">→</span></span>
                     </a>
-                    <a class="home-service-card" href="{{ route('pastry.landing') }}">
+                    <a class="home-service-card" href="{{ route('pastry-trial.landing') }}">
                         <span class="home-service-top"><span>05 / Social media</span><span class="home-service-arrow" aria-hidden="true">↗</span></span>
                         <span class="home-service-body"><span class="home-service-icon" aria-hidden="true">✳</span><strong>Pasticcerie</strong><span>Fai vedere il lavoro, i dettagli e i dolci che meritano di essere scelti.</span></span>
                         <span class="home-service-bottom">Scopri il percorso <span aria-hidden="true">→</span></span>

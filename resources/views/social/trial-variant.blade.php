@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/restaurants-trial.css') }}">
     <link rel="stylesheet" href="{{ asset('css/trial-variants.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
     <script src="{{ asset('js/restaurants-trial.js') }}" defer></script>
 </head>
-<body class="trial-page trial-variant trial-variant-{{ $landing['key'] }}">
+<body class="trial-page trial-variant trial-variant-{{ $landing['key'] }}" data-submitted-form="{{ old('_form_placement') }}">
     <a class="trial-skip" href="#contenuto">Vai al contenuto</a>
     <header class="trial-header"><div class="trial-wrap trial-header-inner">
         <a href="{{ route($landing['route'].'.landing') }}" class="trial-logo" aria-label="Local Up, torna all'inizio della pagina"><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"></a>
@@ -32,7 +33,7 @@
                 <h1 id="trial-title">{{ $landing['hero_title'] }} <em>{{ $landing['hero_emphasis'] }}</em></h1>
                 <p class="trial-lead">{{ $landing['hero_lead'] }}</p>
                 <p class="trial-promise">{{ $landing['promise'] }} <strong>{{ $landing['promise_emphasis'] }}</strong></p>
-                <a class="trial-button" href="#modulo">{{ $landing['cta'] }} <span aria-hidden="true">↗</span></a>
+                <a id="modulo-hero" class="trial-button" href="#modulo">{{ $landing['cta'] }} <span aria-hidden="true">↗</span></a>
                 <p class="trial-under-cta">{{ $landing['under_cta'] }}</p>
             </div>
             <div class="trial-hero-art" aria-hidden="true">

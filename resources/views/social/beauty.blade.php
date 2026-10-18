@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
 </head>
-<body>
+<body data-submitted-form="{{ old('_form_placement') }}">
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="{{ route('beauty.landing') }}" aria-label="Local Up, torna all'inizio"><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"></a>
@@ -30,7 +31,7 @@
                 <p class="eyebrow">— Per parrucchiere, estetiste, nail artist e barber della Toscana con troppi buchi in agenda</p>
                 <h1>Agenda piena tutta la settimana, <em>anche il martedì</em> e il mercoledì</h1>
                 <p class="hero-copy">Ogni settimana giriamo in salone reel e prima/dopo dei tuoi lavori. Li mostriamo con campagne Instagram e Facebook solo alle persone che abitano a pochi chilometri da te, nei giorni che vuoi riempire. Chi ti scrive la seguiamo fino all'appuntamento, e alle clienti che non vedi da tempo ricordiamo di tornare.</p>
-                <a class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>

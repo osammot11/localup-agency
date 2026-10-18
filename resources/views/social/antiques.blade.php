@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/hero-lead-form.js') }}" defer></script>
 </head>
-<body>
+<body data-submitted-form="{{ old('_form_placement') }}">
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="{{ route('antiques.landing') }}" aria-label="Local Up, torna all'inizio"><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"></a>
@@ -30,7 +31,7 @@
                 <p class="eyebrow">— Per antiquari e galleristi della Toscana con pezzi di valore fermi in negozio da troppo tempo</p>
                 <h1>I tuoi pezzi davanti ai <em>collezionisti giusti</em>, anche fuori dalla Toscana</h1>
                 <p class="hero-copy">Facciamo arrivare i tuoi mobili, quadri e oggetti a chi li cerca e li sa apprezzare, così smettono di prendere polvere e diventano vendite. Tu scegli e racconti i pezzi: a farli vedere ci pensiamo noi.</p>
-                <a class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>

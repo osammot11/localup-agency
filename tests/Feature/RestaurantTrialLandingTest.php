@@ -90,6 +90,25 @@ class RestaurantTrialLandingTest extends TestCase
         $this->assertDatabaseCount('leads', 0);
     }
 
+    public function test_hero_trial_form_returns_to_itself_and_retains_validation_placement(): void
+    {
+        $this->post(route('restaurants-trial.lead'), $this->lead() + ['_form_placement' => 'hero'])
+            ->assertRedirect(route('restaurants-trial.landing', ['success' => 1]).'#modulo-hero');
+
+        $this->assertDatabaseCount('leads', 1);
+
+        $this->followingRedirects()->from(route('restaurants-trial.landing'))
+            ->post(route('restaurants-trial.lead'), array_replace($this->lead(), [
+                'email' => 'non-valida',
+                '_form_placement' => 'hero',
+            ]))
+            ->assertOk()
+            ->assertSee('data-submitted-form="hero"', false)
+            ->assertSee('data-has-errors="true"', false);
+
+        $this->assertDatabaseCount('leads', 1);
+    }
+
     public function test_invalid_contact_step_keeps_restaurant_fields_for_correction(): void
     {
         $this->followingRedirects()->from(route('restaurants-trial.landing'))

@@ -59,11 +59,11 @@ class MetaTrackingTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('La tua attività merita di')
-            ->assertSee(route('sites.landing'))
-            ->assertSee(route('restaurants.landing'))
-            ->assertSee(route('beauty.landing'))
-            ->assertSee(route('antiques.landing'))
-            ->assertSee(route('pastry.landing'))
+            ->assertSee(route('sites-trial.landing'))
+            ->assertSee(route('restaurants-trial.landing'))
+            ->assertSee(route('beauty-trial.landing'))
+            ->assertSee(route('antiques-trial.landing'))
+            ->assertSee(route('pastry-trial.landing'))
             ->assertSee('Cookie e tracciamento')
             ->assertDontSee('connect.facebook.net');
 
