@@ -27,16 +27,15 @@ class RestaurantTrialLandingTest extends TestCase
         ];
     }
 
-    public function test_second_restaurant_landing_shows_requested_sections_and_two_step_form(): void
+    public function test_restaurant_landing_keeps_the_hero_form_when_the_bottom_section_is_hidden(): void
     {
         $this->get(route('restaurants-trial.landing'))
             ->assertOk()
-            ->assertSee('Il tuo ristorante fa venire fame')
-            ->assertSee('Cosa facciamo durante')
-            ->assertSee('Chiosco Focolento')
-            ->assertSee('Il primo mese:')
-            ->assertSee('Come si comincia')
+            ->assertSee('Riempiamo il tuo ristorante.')
             ->assertSee('Domande')
+            ->assertSee('id="hero-trial-lead-form"', false)
+            ->assertSee('name="_form_placement" value="hero"', false)
+            ->assertDontSee('id="trial-lead-form"', false)
             ->assertSee('data-step="1"', false)
             ->assertSee('data-step="2"', false)
             ->assertSee('restaurants-trial.js')
@@ -117,7 +116,7 @@ class RestaurantTrialLandingTest extends TestCase
             ->assertSee('data-has-errors="true"', false)
             ->assertSee('value="Osteria del Ponte"', false)
             ->assertSee('value="Lucca"', false)
-            ->assertSee('aria-invalid="true" aria-describedby="email-error"', false);
+            ->assertSee('aria-invalid="true" aria-describedby="hero-email-error"', false);
     }
 
     public function test_trial_details_appear_in_protected_admin_and_email(): void

@@ -31,7 +31,7 @@
                 <p class="eyebrow">— Per parrucchiere, estetiste, nail artist e barber della Toscana con troppi buchi in agenda</p>
                 <h1>Agenda piena tutta la settimana, <em>anche il martedì</em> e il mercoledì</h1>
                 <p class="hero-copy">Ogni settimana giriamo in salone reel e prima/dopo dei tuoi lavori. Li mostriamo con campagne Instagram e Facebook solo alle persone che abitano a pochi chilometri da te, nei giorni che vuoi riempire. Chi ti scrive la seguiamo fino all'appuntamento, e alle clienti che non vedi da tempo ricordiamo di tornare.</p>
-                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <div id="modulo-hero" class="hero-inline-form" role="region" aria-label="Modulo di richiesta">@include('social.partials.beauty-form', ['placement' => 'hero'])</div>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>
@@ -119,15 +119,7 @@
         <section class="section muted form-section" id="modulo"><div class="content-width">
             <h2 class="section-title">Compila il modulo e attiva il tuo mese gratuito</h2>
             <ol class="form-steps"><li>Compili il modulo in meno di un minuto.</li><li>Entro 24 ore ti contattiamo per conoscere la tua attività e fissare la consulenza gratuita.</li><li>Analizziamo il tuo profilo e partiamo con il mese gratuito: solo se ti piace, prosegui.</li></ol>
-            @if(request()->boolean('success'))<div class="form-message success" role="status">Grazie! Abbiamo ricevuto la tua richiesta e ti ricontatteremo entro 24 ore.</div>@endif
-            @if($errors->any())<div class="form-message error" role="alert">Controlla i campi evidenziati e riprova.</div>@endif
-            <form class="lead-form card" action="{{ route('beauty.lead') }}" method="post">
-                @csrf
-                <div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-                <div class="grid two form-grid"><div><label for="nome">Nome *</label><input id="nome" name="nome" required autocomplete="given-name" placeholder="Mario" value="{{ old('nome') }}" @error('nome') aria-invalid="true" @enderror></div><div><label for="cognome">Cognome *</label><input id="cognome" name="cognome" required autocomplete="family-name" placeholder="Rossi" value="{{ old('cognome') }}" @error('cognome') aria-invalid="true" @enderror></div><div><label for="email">Email *</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@azienda.it" value="{{ old('email') }}" @error('email') aria-invalid="true" @enderror></div><div><label for="telefono">Numero di telefono *</label><input id="telefono" name="telefono" type="tel" required autocomplete="tel" placeholder="+39 320 000 0000" value="{{ old('telefono') }}" @error('telefono') aria-invalid="true" @enderror></div><div class="full"><label for="attivita">Nome attività *</label><input id="attivita" name="attivita" required autocomplete="organization" placeholder="Es. Osteria del Podere" value="{{ old('attivita') }}" @error('attivita') aria-invalid="true" @enderror></div><div class="full"><label for="settore">Settore *</label><input id="settore" name="settore" required placeholder="Es. Ristorazione, estetica, edilizia, consulenza…" value="{{ old('settore') }}" @error('settore') aria-invalid="true" @enderror></div></div>
-                <label class="consent"><input type="checkbox" name="consenso" value="1" required {{ old('consenso') ? 'checked' : '' }}> <span>Acconsento al trattamento dei miei dati per essere ricontattato in merito alla mia richiesta. * <a href="https://localupitalia.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy</a></span></label>
-                <button class="button submit-button" type="submit">✧ &nbsp; Attiva il mese gratuito</button><p class="button-note">Risposta garantita entro 24 ore • Nessun impegno</p>
-            </form>
+            @include('social.partials.beauty-form', ['placement' => 'bottom'])
         </div></section>
 
         <section class="section faq-section"><div class="content-width"><p class="eyebrow center">Domande frequenti</p><h2 class="section-title">Domande frequenti sul social media marketing per saloni</h2><div class="faq-list">

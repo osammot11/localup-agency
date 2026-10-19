@@ -10,7 +10,7 @@ class LandingUrlSwitchTest extends TestCase
     public static function landingUrls(): array
     {
         return [
-            'ristoranti' => ['/social/ristoranti', 'restaurants-trial', 'Il tuo ristorante fa venire fame', 'restaurants', 'Sala piena'],
+            'ristoranti' => ['/social/ristoranti', 'restaurants-trial', 'Riempiamo il tuo ristorante.', 'restaurants', 'Sala piena'],
             'beauty' => ['/social/beauty', 'beauty-trial', 'Il tuo lavoro si vede dal vivo.', 'beauty', 'Agenda piena tutta la settimana'],
             'antiquariato' => ['/social/antiquariato', 'antiques-trial', 'Ogni pezzo ha una storia.', 'antiques', 'I tuoi pezzi davanti ai'],
             'pasticcerie' => ['/social/pasticcerie', 'pastry-trial', 'I tuoi dolci fanno venire voglia.', 'pastry', 'Più ordini di'],

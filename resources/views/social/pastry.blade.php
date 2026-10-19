@@ -31,7 +31,7 @@
                 <p class="eyebrow">— Per pasticcerie e gelaterie della Toscana che vogliono più ordini, non solo più vetrine piene</p>
                 <h1>Più ordini di <em>torte su misura</em> e una vetrina che si svuota ogni giorno</h1>
                 <p class="hero-copy">Ti portiamo nuovi clienti della tua zona e ordini per compleanni, matrimoni e feste, così il lavoro non dipende più da chi passa per caso. Tu pensi a creare: a farti scegliere ci pensiamo noi.</p>
-                <a id="modulo-hero" class="button" href="#modulo">Attiva il mese gratuito <span aria-hidden="true">↗</span></a>
+                <div id="modulo-hero" class="hero-inline-form" role="region" aria-label="Modulo di richiesta">@include('social.partials.pastry-form', ['placement' => 'hero'])</div>
                 <p class="button-note">Per attività in Toscana • Risposta entro 24 ore • Nessun impegno</p>
             </div>
         </section>
@@ -119,15 +119,7 @@
         <section class="section muted form-section" id="modulo"><div class="content-width">
             <h2 class="section-title">Compila il modulo e attiva il tuo mese gratuito</h2>
             <ol class="form-steps"><li>Compili il modulo in meno di un minuto.</li><li>Entro 24 ore ti contattiamo per conoscere la tua attività e fissare la consulenza gratuita.</li><li>Analizziamo il tuo profilo e partiamo con il mese gratuito: solo se ti piace, prosegui.</li></ol>
-            @if(request()->boolean('success'))<div class="form-message success" role="status">Grazie! Abbiamo ricevuto la tua richiesta e ti ricontatteremo entro 24 ore.</div>@endif
-            @if($errors->any())<div class="form-message error" role="alert">Controlla i campi evidenziati e riprova.</div>@endif
-            <form class="lead-form card" action="{{ route('pastry.lead') }}" method="post">
-                @csrf
-                <div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-                <div class="grid two form-grid"><div><label for="nome">Nome *</label><input id="nome" name="nome" required autocomplete="given-name" placeholder="Mario" value="{{ old('nome') }}" @error('nome') aria-invalid="true" @enderror></div><div><label for="cognome">Cognome *</label><input id="cognome" name="cognome" required autocomplete="family-name" placeholder="Rossi" value="{{ old('cognome') }}" @error('cognome') aria-invalid="true" @enderror></div><div><label for="email">Email *</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@azienda.it" value="{{ old('email') }}" @error('email') aria-invalid="true" @enderror></div><div><label for="telefono">Numero di telefono *</label><input id="telefono" name="telefono" type="tel" required autocomplete="tel" placeholder="+39 320 000 0000" value="{{ old('telefono') }}" @error('telefono') aria-invalid="true" @enderror></div><div class="full"><label for="attivita">Nome attività *</label><input id="attivita" name="attivita" required autocomplete="organization" placeholder="Es. Pasticceria del Centro" value="{{ old('attivita') }}" @error('attivita') aria-invalid="true" @enderror></div><div class="full"><label for="settore">Settore *</label><input id="settore" name="settore" required placeholder="Es. Pasticceria, gelateria, panificio…" value="{{ old('settore') }}" @error('settore') aria-invalid="true" @enderror></div></div>
-                <label class="consent"><input type="checkbox" name="consenso" value="1" required {{ old('consenso') ? 'checked' : '' }}> <span>Acconsento al trattamento dei miei dati per essere ricontattato in merito alla mia richiesta. * <a href="https://localupitalia.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy</a></span></label>
-                <button class="button submit-button" type="submit">✧ &nbsp; Attiva il mese gratuito</button><p class="button-note">Risposta garantita entro 24 ore • Nessun impegno</p>
-            </form>
+            @include('social.partials.pastry-form', ['placement' => 'bottom'])
         </div></section>
 
         <section class="section faq-section"><div class="content-width"><p class="eyebrow center">Domande frequenti</p><h2 class="section-title">Domande frequenti sui social per pasticcerie</h2><div class="faq-list">
