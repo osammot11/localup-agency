@@ -3,7 +3,7 @@ html{scroll-behavior:smooth}
 .trial-page{margin:0;background:#fffcf9;color:var(--trial-ink);font-family:var(--trial-font)}
 .trial-page *{box-sizing:border-box}
 .trial-page img{display:block;max-width:100%}
-.trial-page h1,.trial-page h2,.trial-page h3{font-family:var(--trial-display);letter-spacing:-.055em}
+.trial-page h1,.trial-page h2,.trial-page h3{font-family:var(--trial-font);letter-spacing:-.025em}
 .trial-page h1,.trial-page h2,.trial-page h3,.trial-page p{margin-top:0}
 .trial-page p{line-height:1.65}
 .trial-page em{font-family:inherit;font-style:normal;font-weight:inherit;color:var(--trial-red)}
@@ -23,7 +23,7 @@ html{scroll-behavior:smooth}
 .trial-eyebrow,.trial-kicker{color:var(--trial-red);text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:.18em;line-height:1.4}
 .trial-eyebrow{display:flex;align-items:center;gap:11px;margin-bottom:26px}
 .trial-eyebrow-line{width:25px;height:2px;background:var(--trial-red)}
-.trial-hero h1{max-width:680px;margin:0 0 25px;font-size:clamp(43px,5.2vw,72px);line-height:1.04;font-weight:800}
+.trial-hero h1{max-width:680px;margin:0 0 25px;font-size:clamp(42px,5vw,64px);line-height:1.12;font-weight:700}
 .trial-hero h1 em{display:block}
 .trial-lead{max-width:600px;font-size:17px;color:#514440;margin-bottom:22px}
 .trial-promise{font-size:17px;font-weight:700;line-height:1.4;margin-bottom:29px}
@@ -46,7 +46,7 @@ html{scroll-behavior:smooth}
 .trial-hero-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid #d7b9ad;padding-block:20px 22px;color:#866e68;text-transform:uppercase;letter-spacing:.15em;font-size:10px;font-weight:800}
 .trial-hero-foot span+span::before{content:'✳';color:var(--trial-red);margin-right:28px}
 .trial-section{padding:105px 0}
-.trial-section h2{font-size:clamp(35px,4.3vw,58px);line-height:1.1;margin:0 0 26px}
+.trial-section h2{font-size:clamp(35px,4.3vw,58px);line-height:1.16;margin:0 0 26px}
 .trial-kicker{margin-bottom:19px}
 .trial-intro-grid{display:grid;grid-template-columns:1fr .9fr;gap:100px;align-items:start}
 .trial-intro .trial-prose{padding-top:23px;color:#594b47;font-size:18px}
@@ -94,7 +94,7 @@ html{scroll-behavior:smooth}
 .trial-form-side-note p{font-size:14px;font-weight:700;color:#614b47;margin:0}
 .trial-form-card{padding:34px;background:#fffdfb;border:1px solid #e8d6c9;border-radius:22px;box-shadow:0 20px 45px #522d2517}
 .trial-form-card fieldset{margin:0;padding:0;border:0;min-width:0}
-.trial-form-card legend{font:800 26px/1.1 var(--trial-display);letter-spacing:-.05em;margin-bottom:23px}
+.trial-form-card legend{font:700 26px/1.2 var(--trial-font);letter-spacing:-.02em;margin-bottom:23px}
 .trial-progress{margin-bottom:33px}.trial-progress-label{display:block;margin-bottom:10px;color:#8a7570;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.trial-progress-label strong{color:var(--trial-red)}
 .trial-progress-track{height:5px;border-radius:99px;background:#f1e6df;overflow:hidden}.trial-progress-track span{display:block;width:50%;height:100%;border-radius:99px;background:var(--trial-red);transition:width .2s}
 .trial-step[hidden]{display:none}

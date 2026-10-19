@@ -33,10 +33,9 @@
         <section class="trial-hero" aria-labelledby="trial-title">
             <div class="trial-wrap trial-hero-grid">
                 <div class="trial-hero-copy">
-                    <p class="trial-eyebrow"><span aria-hidden="true" class="trial-eyebrow-line"></span> Per ristoranti in Toscana</p>
-                    <h1 id="trial-title">Il tuo ristorante fa venire fame. <em>Il tuo profilo lo dimostra?</em></h1>
-                    <p class="trial-lead">Prima di prenotare, le persone guardano dove mangeranno. Per un mese veniamo nel tuo locale, creiamo foto e video dei tuoi piatti, scriviamo i testi e pubblichiamo i contenuti sui tuoi social.</p>
-                    <p class="trial-promise">La gestione del primo mese è gratuita. <strong>Poi decidi tu se continuare.</strong></p>
+                    <h1 id="trial-title">Non gestiamo solo i social media.<em>Riempiamo il tuo ristorante.</em></h1>
+                    <p class="trial-lead">In 30 giorni rivoluzioneremo il modo in cui vengono gestiti i social del tuo ristorante, non per attirare like e visualizzazioni, ma per riempire i tavoli. Ogni singolo giorno (sì anche il martedì sera).</p>
+                    <p class="trial-promise">30 giorni 100% gratuiti e senza impegno. <strong>Continuiamo solo se otteniamo risultati.</strong></p>
                     <a id="modulo-hero" class="trial-button" href="#modulo">Richiedi il mese gratuito <span aria-hidden="true">↗</span></a>
                     <p class="trial-under-cta">Compila una breve richiesta. Ti ricontattiamo per conoscere il ristorante, verificare la disponibilità e spiegarti come funziona la prova.</p>
                 </div>
@@ -49,9 +48,9 @@
                     <p class="trial-art-caption">IL PRIMO MESE<br><strong>LO OFFRIAMO NOI.</strong></p>
                 </div>
             </div>
-            <div class="trial-wrap trial-hero-foot"><span>Strategia</span><span>Contenuti</span><span>Pubblicazione</span><span>Un mese per provarci</span></div>
+           {{-- <div class="trial-wrap trial-hero-foot"><span>Strategia</span><span>Contenuti</span><span>Pubblicazione</span><span>Un mese per provarci</span></div> --}}
         </section>
-
+{{--
         <section class="trial-section trial-intro" aria-labelledby="trial-seen-title">
             <div class="trial-wrap trial-intro-grid">
                 <div><p class="trial-kicker">Il punto di partenza</p><h2 id="trial-seen-title">Quello che servi merita di <em>essere visto.</em></h2></div>
@@ -131,6 +130,7 @@
         </div></div></section>
 
         <section class="trial-final" aria-labelledby="trial-final-title"><div class="trial-wrap trial-final-inner"><p class="trial-kicker">Ci vediamo nel tuo locale?</p><h2 id="trial-final-title">Il tuo prossimo cliente potrebbe già stare guardando <em>Instagram.</em></h2><p>Facciamo vedere ciò che rende desiderabile il tuo ristorante. Raccontaci del locale e valutiamo insieme il mese gratuito.</p><a class="trial-button trial-button-light" href="#modulo">Richiedi il mese gratuito <span aria-hidden="true">↗</span></a></div></section>
+        --}}
     </main>
 
     <footer class="trial-footer"><div class="trial-wrap trial-footer-inner"><div><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"><p>Marketing digitale per attività locali in Toscana.</p></div><nav aria-label="Link legali"><a href="https://localupitalia.com/privacy-policy">Privacy</a><a href="https://localupitalia.com/cookie-policy">Cookie</a><a href="https://localupitalia.com/termini-e-condizioni">Termini</a>@unless(config('services.meta.track_without_consent'))<button type="button" class="cookie-preferences-open">Preferenze cookie</button>@endunless</nav><span>© {{ date('Y') }} Local Up · P.IVA 02727380467</span></div></footer>
