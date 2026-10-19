@@ -39,6 +39,17 @@ class TrialLandingVariantsTest extends TestCase
             ->assertDontSee('tailwind');
     }
 
+    public function test_pasticcerie_uses_its_own_page_with_two_independent_forms(): void
+    {
+        $this->get(route('pastry-trial.landing'))
+            ->assertOk()
+            ->assertViewIs('social.pastry-trial')
+            ->assertSee('id="hero-trial-lead-form"', false)
+            ->assertSee('id="trial-lead-form"', false)
+            ->assertSee('name="_form_placement" value="hero"', false)
+            ->assertSee('name="_form_placement" value="bottom"', false);
+    }
+
     #[DataProvider('variants')]
     public function test_each_second_landing_saves_a_lead_and_queues_email(string $route, string $source, string $headline, string $sector): void
     {
