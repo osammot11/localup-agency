@@ -70,12 +70,13 @@
             @include('social.partials.beauty-trial-form', ['placement' => 'bottom'])
         </div></section>
 
-        --}}
+
 
         <section class="trial-section trial-faq" aria-labelledby="trial-faq-title"><div class="trial-wrap trial-faq-grid"><div><p class="trial-kicker">Risposte chiare</p><h2 id="trial-faq-title">Domande <em>frequenti.</em></h2></div><div class="trial-faq-list"><details><summary>Il mese è davvero gratuito?</summary><p>Sì. La nostra gestione descritta in questa pagina è gratuita per il primo mese. L’eventuale budget delle campagne è separato e lo paghi direttamente a Meta.</p></details><details><summary>Devo decidere ora se continuare?</summary><p>No. Al termine del mese valuti il lavoro e decidi se proseguire.</p></details><details><summary>Devo creare io foto e video?</summary><p>No. Veniamo nella tua attività, realizziamo i contenuti e ci occupiamo di montaggio, testi e pubblicazione.</p></details>
-           {{-- <details><summary>Lavorate anche nel mio comune?</summary><p>Seguiamo attività in Toscana. Dopo la richiesta verifichiamo la disponibilità per la tua zona.</p></details> --}} </div></div></section>
+           {{-- <details><summary>Lavorate anche nel mio comune?</summary><p>Seguiamo attività in Toscana. Dopo la richiesta verifichiamo la disponibilità per la tua zona.</p></details>  </div></div></section>
         <section class="trial-final" aria-labelledby="trial-final-title"><div class="trial-wrap trial-final-inner"><p class="trial-kicker">Facciamo vedere il tuo lavoro?</p><h2 id="trial-final-title">La prossima cliente potrebbe già stare guardando <em>Instagram.</em></h2><p>Raccontaci della tua attività e valutiamo insieme il mese gratuito.</p><a class="trial-button trial-button-light" href="#modulo">Richiedi il mese gratuito <span aria-hidden="true">↗</span></a></div></section>
-    </main>
+--}}
+        </main>
 
     <footer class="trial-footer"><div class="trial-wrap trial-footer-inner"><div><img src="{{ asset('images/restaurants/logo.png') }}" alt="Local Up"><p>Marketing digitale per attività locali in Toscana.</p></div><nav aria-label="Link legali"><a href="https://localupitalia.com/privacy-policy">Privacy</a><a href="https://localupitalia.com/cookie-policy">Cookie</a><a href="https://localupitalia.com/termini-e-condizioni">Termini</a>@unless(config('services.meta.track_without_consent'))<button type="button" class="cookie-preferences-open">Preferenze cookie</button>@endunless</nav><span>© {{ date('Y') }} Local Up · P.IVA 02727380467</span></div></footer>
     @include('partials.meta-tracking')
