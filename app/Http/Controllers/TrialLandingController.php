@@ -11,6 +11,10 @@ class TrialLandingController extends Controller
 {
     public function show(Request $request): View
     {
+        if ($request->route('variant') === 'beauty') {
+            return view('social.beauty-trial');
+        }
+
         if ($request->route('variant') === 'pastry') {
             return view('social.pastry-trial');
         }

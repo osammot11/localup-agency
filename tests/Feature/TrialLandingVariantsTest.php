@@ -20,7 +20,7 @@ class TrialLandingVariantsTest extends TestCase
         return [
             'beauty' => ['beauty-trial', 'social/beauty-v2', 'Il tuo lavoro si vede dal vivo.', 'Beauty'],
             'antiquariato' => ['antiques-trial', 'social/antiquariato-v2', 'Ogni pezzo ha una storia.', 'Antiquariato'],
-            'pasticcerie' => ['pastry-trial', 'social/pasticcerie-v2', 'I tuoi dolci fanno venire voglia.', 'Pasticceria'],
+            'pasticcerie' => ['pastry-trial', 'social/pasticcerie-v2', 'Riempiamo di clienti la tua pasticceria.', 'Pasticceria'],
             'siti' => ['sites-trial', 'siti-v2', 'Il tuo sito dovrebbe lavorare per te.', 'Ristorazione'],
         ];
     }
@@ -39,11 +39,22 @@ class TrialLandingVariantsTest extends TestCase
             ->assertDontSee('tailwind');
     }
 
-    public function test_pasticcerie_uses_its_own_page_with_two_independent_forms(): void
+    public function test_pasticcerie_keeps_its_hero_form_when_the_bottom_section_is_hidden(): void
     {
         $this->get(route('pastry-trial.landing'))
             ->assertOk()
             ->assertViewIs('social.pastry-trial')
+            ->assertSee('id="hero-trial-lead-form"', false)
+            ->assertDontSee('id="trial-lead-form"', false)
+            ->assertSee('name="_form_placement" value="hero"', false)
+            ->assertDontSee('name="_form_placement" value="bottom"', false);
+    }
+
+    public function test_beauty_uses_its_own_page_with_two_independent_forms(): void
+    {
+        $this->get(route('beauty-trial.landing'))
+            ->assertOk()
+            ->assertViewIs('social.beauty-trial')
             ->assertSee('id="hero-trial-lead-form"', false)
             ->assertSee('id="trial-lead-form"', false)
             ->assertSee('name="_form_placement" value="hero"', false)
