@@ -18,7 +18,7 @@ class TrialLandingVariantsTest extends TestCase
     public static function variants(): array
     {
         return [
-            'beauty' => ['beauty-trial', 'social/beauty-v2', 'Il tuo lavoro si vede dal vivo.', 'Beauty'],
+            'beauty' => ['beauty-trial', 'social/beauty-v2', 'Il calendario appuntamenti del tuo salone deve essere pieno.', 'Beauty'],
             'antiquariato' => ['antiques-trial', 'social/antiquariato-v2', 'Ogni pezzo ha una storia.', 'Antiquariato'],
             'pasticcerie' => ['pastry-trial', 'social/pasticcerie-v2', 'Riempiamo di clienti la tua pasticceria.', 'Pasticceria'],
             'siti' => ['sites-trial', 'siti-v2', 'Il tuo sito dovrebbe lavorare per te.', 'Ristorazione'],

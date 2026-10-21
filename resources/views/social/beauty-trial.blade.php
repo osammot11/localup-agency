@@ -39,6 +39,7 @@
             <div>
                 <img src="/images/beauty/parrucchiera.jpg" style="width: 100%;">
             </div>
+        </div></section>
         {{--
         </div><div class="trial-wrap trial-hero-foot"><span>Strategia</span><span>Foto e video</span><span>Pubblicazione</span><span>Un mese per provarci</span></div></section>
 
@@ -65,10 +66,12 @@
 
         <section class="trial-section trial-start" aria-labelledby="trial-start-title"><div class="trial-wrap"><p class="trial-kicker">Semplice, dall'inizio</p><h2 id="trial-start-title">Come si comincia.</h2><ol class="trial-start-list"><li><span>01</span><div><h3>Ci racconti della tua attività</h3><p>Compili il breve modulo qui sotto.</p></div></li><li><span>02</span><div><h3>Parliamo con te</h3><p>Ti ricontattiamo per capire i tuoi servizi, rispondere alle domande e verificare la disponibilità.</p></div></li><li><span>03</span><div><h3>Concordiamo il mese di prova</h3><p>Definiamo insieme contenuti e attività. Partiamo solo dopo la tua approvazione.</p></div></li></ol></div></section>
 
+--}}
         <section class="trial-section trial-form-section" id="modulo" aria-labelledby="trial-form-title"><div class="trial-wrap trial-form-grid">
             <div class="trial-form-side"><p class="trial-kicker">La tua richiesta</p><h2 id="trial-form-title">Raccontaci della tua <em>attività.</em></h2><p>La richiesta richiede meno di un minuto. Prima di iniziare il mese di prova parlerai con il nostro team.</p><div class="trial-form-side-note"><span aria-hidden="true">↗</span><p>Ti ricontattiamo entro 24 ore. Nessun impegno.</p></div></div>
             @include('social.partials.beauty-trial-form', ['placement' => 'bottom'])
         </div></section>
+{{--
 
 
 

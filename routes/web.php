@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\GoogleSheetsController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\AntiquesLandingController;
 use App\Http\Controllers\BeautyLandingController;
+use App\Http\Controllers\FormProgressTrackingController;
 use App\Http\Controllers\MarketingConsentController;
 use App\Http\Controllers\PastryLandingController;
 use App\Http\Controllers\RestaurantLandingController;
@@ -62,6 +63,14 @@ Route::post('/siti', [TrialLandingController::class, 'store'])->defaults('varian
 Route::post('/tracking/consent', [MarketingConsentController::class, 'store'])
     ->middleware('throttle:20,1')
     ->name('tracking.consent');
+
+Route::post('/tracking/form-start', [FormProgressTrackingController::class, 'started'])
+    ->middleware('throttle:60,1')
+    ->name('tracking.form-start');
+
+Route::post('/tracking/form-step-2', [FormProgressTrackingController::class, 'stepTwo'])
+    ->middleware('throttle:60,1')
+    ->name('tracking.form-step-2');
 
 Route::get('/admin/login', [AuthController::class, 'show'])->name('login');
 Route::post('/admin/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('admin.login');

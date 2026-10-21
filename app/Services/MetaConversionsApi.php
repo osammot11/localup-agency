@@ -42,6 +42,7 @@ class MetaConversionsApi
             'id' => $eventId,
             'lead_id' => $lead->id,
             'consent_id' => $consentId,
+            'event_name' => 'Lead',
             'payload' => Crypt::encryptString(json_encode($event, JSON_THROW_ON_ERROR)),
             'status' => 'pending',
             'created_at' => now(),
@@ -51,6 +52,41 @@ class MetaConversionsApi
         $this->deliver($eventId);
 
         return $eventId;
+    }
+
+    public function captureFormProgress(string $eventName, string $eventId, string $source, string $sourceUrl, Request $request, ?string $consentId): void
+    {
+        $userData = array_filter([
+            'client_ip_address' => $request->ip(),
+            'client_user_agent' => $request->userAgent(),
+            'fbp' => $this->metaCookie($request, '_fbp'),
+            'fbc' => $this->metaCookie($request, '_fbc'),
+        ], fn (mixed $value): bool => $value !== null && $value !== '');
+
+        $event = [
+            'event_name' => $eventName,
+            'event_time' => now()->timestamp,
+            'event_id' => $eventId,
+            'action_source' => 'website',
+            'event_source_url' => $sourceUrl,
+            'user_data' => $userData,
+            'custom_data' => ['content_name' => $source],
+        ];
+
+        $inserted = DB::table('meta_events')->insertOrIgnore([
+            'id' => $eventId,
+            'lead_id' => null,
+            'consent_id' => $consentId,
+            'event_name' => $eventName,
+            'payload' => Crypt::encryptString(json_encode($event, JSON_THROW_ON_ERROR)),
+            'status' => 'pending',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        if ($inserted === 1) {
+            $this->deliver($eventId);
+        }
     }
 
     public function deliver(string $eventId): void
