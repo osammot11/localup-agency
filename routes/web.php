@@ -52,6 +52,16 @@ Route::post('/social/pasticcerie-v2', [PastryLandingController::class, 'store'])
 Route::get('/social/pasticcerie', [TrialLandingController::class, 'show'])->defaults('variant', 'pastry')->name('pastry-trial.landing');
 Route::post('/social/pasticcerie', [TrialLandingController::class, 'store'])->defaults('variant', 'pastry')->middleware('throttle:5,1')->name('pastry-trial.lead');
 
+Route::get('/social/pasticcerie-v3', [TrialLandingController::class, 'show'])->defaults('variant', 'pastry_v3')->name('pastry-v3.landing');
+Route::post('/social/pasticcerie-v3', [TrialLandingController::class, 'store'])->defaults('variant', 'pastry_v3')->middleware('throttle:5,1')->name('pastry-v3.lead');
+
+if (app()->environment(['local', 'testing'])) {
+    Route::get('/social/pasticcerie-test', [TrialLandingController::class, 'show'])
+        ->defaults('variant', 'pastry')->defaults('preview', true)->name('pastry-test.landing');
+    Route::post('/social/pasticcerie-test', [TrialLandingController::class, 'store'])
+        ->defaults('variant', 'pastry')->defaults('preview', true)->middleware('throttle:5,1')->name('pastry-test.lead');
+}
+
 Route::get('/siti-v2', [WebsiteLandingController::class, 'show'])->name('sites.landing');
 Route::post('/siti-v2', [WebsiteLandingController::class, 'store'])
     ->middleware('throttle:5,1')

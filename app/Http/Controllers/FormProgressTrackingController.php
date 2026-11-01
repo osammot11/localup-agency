@@ -16,6 +16,7 @@ class FormProgressTrackingController extends Controller
         'beauty' => ['route' => 'beauty-trial.landing', 'source' => 'social/beauty-v2'],
         'antiques' => ['route' => 'antiques-trial.landing', 'source' => 'social/antiquariato-v2'],
         'pastry' => ['route' => 'pastry-trial.landing', 'source' => 'social/pasticcerie-v2'],
+        'pastry_v3' => ['route' => 'pastry-v3.landing', 'source' => 'social/pasticcerie-v3'],
         'sites' => ['route' => 'sites-trial.landing', 'source' => 'siti-v2'],
     ];
 

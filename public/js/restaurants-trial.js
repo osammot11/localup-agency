@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '/social/beauty': {key: 'beauty', source: 'social/beauty-v2'},
         '/social/antiquariato': {key: 'antiques', source: 'social/antiquariato-v2'},
         '/social/pasticcerie': {key: 'pastry', source: 'social/pasticcerie-v2'},
+        '/social/pasticcerie-v3': {key: 'pastry_v3', source: 'social/pasticcerie-v3'},
         '/siti': {key: 'sites', source: 'siti-v2'}
     };
     var landing = landingByPath[window.location.pathname.replace(/\/$/, '')];

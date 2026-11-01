@@ -59,6 +59,12 @@ return [
         'source' => 'social/pasticcerie-v2',
         'sector' => 'Pasticceria',
     ],
+    'pastry_v3' => [
+        'key' => 'pastry_v3',
+        'route' => 'pastry-v3',
+        'source' => 'social/pasticcerie-v3',
+        'sector' => 'Pasticceria',
+    ],
     'sites' => [
         'key' => 'sites', 'route' => 'sites-trial', 'source' => 'siti-v2', 'sector' => null,
         'title' => 'Demo gratuita del tuo nuovo sito | Local Up',

@@ -28,7 +28,7 @@
     <main id="contenuto">
         <section class="trial-hero" aria-labelledby="trial-title"><div class="trial-wrap trial-hero-grid">
             <div class="trial-hero-copy">
-                <h1 id="trial-title">Non gestiamo semplicemente i tuoi social. <em>Riempiamo di clienti la tua pasticceria.</em></h1>
+                <h1 id="trial-title">Non gestiamo semplicemente i tuoi social. <em>In soli 30 giorni, riempiamo di clienti la tua pasticceria.</em></h1>
                 <p class="trial-lead">In 30 giorni riempiremo la tua pasticceria attraverso contenuti social che vanno virali e attirano veri clienti per il tuo negozio, non solo like e visualizzazioni.</p>
                 <p class="trial-promise">30 giorni completamente gratis, <strong>poi decidi tu se continuare.</strong></p>
                 <div id="modulo-hero" class="trial-hero-inline-form" role="region" aria-label="Modulo di richiesta">
@@ -37,10 +37,7 @@
                 </div>
             </div>
             <div class="trial-hero-art" aria-hidden="true">
-                <div class="trial-art-orbit trial-art-orbit-one"></div><div class="trial-art-orbit trial-art-orbit-two"></div>
-                <div class="trial-art-plate"><span>01</span><strong>mese</strong><small>per mostrare<br>le tue creazioni</small></div>
-                <div class="trial-art-note trial-art-note-top">Dolci + laboratorio</div><div class="trial-art-note trial-art-note-bottom">Foto e video sul posto</div>
-                <p class="trial-art-caption">LOCAL UP<br><strong>LA TUA ATTIVITÀ IN PRIMO PIANO.</strong></p>
+                <img src="/images/pasticcerie/hero-pastry.jpg" style="width: 100%;"
             </div>
         </div><div class="trial-wrap trial-hero-foot"><span>Strategia</span><span>Foto e video</span><span>Pubblicazione</span><span>Un mese per provarci</span></div></section>
 {{--

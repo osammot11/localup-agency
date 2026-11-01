@@ -11,12 +11,20 @@ class TrialLandingController extends Controller
 {
     public function show(Request $request): View
     {
+        if ($request->route('preview') === true && $request->route('variant') === 'pastry') {
+            return view('social.pastry-test');
+        }
+
         if ($request->route('variant') === 'beauty') {
             return view('social.beauty-trial');
         }
 
         if ($request->route('variant') === 'pastry') {
             return view('social.pastry-trial');
+        }
+
+        if ($request->route('variant') === 'pastry_v3') {
+            return view('social.pastry-v3');
         }
 
         return view('social.trial-variant', ['landing' => $this->landing($request)]);
@@ -26,6 +34,7 @@ class TrialLandingController extends Controller
     {
         $landing = $this->landing($request);
         $isWebsite = $landing['key'] === 'sites';
+        $isPreview = $request->route('preview') === true && $landing['key'] === 'pastry';
 
         $data = $request->validate([
             'website' => ['nullable', 'max:0'],
@@ -44,8 +53,9 @@ class TrialLandingController extends Controller
         return $leads->submit(
             $request,
             $data + ['cognome' => '', 'settore' => $landing['sector']],
-            $landing['source'],
-            $landing['route'].'.landing',
+            $isPreview ? 'social/pasticcerie-test' : $landing['source'],
+            $isPreview ? 'pastry-test.landing' : $landing['route'].'.landing',
+            $isPreview,
         );
     }
 

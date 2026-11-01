@@ -11,14 +11,19 @@ use Throwable;
 
 class LandingLeadService
 {
-    public function submit(Request $request, array $data, string $source, string $landingRoute): RedirectResponse
+    public function submit(Request $request, array $data, string $source, string $landingRoute, bool $isPreview = false): RedirectResponse
     {
         unset($data['website'], $data['consenso']);
 
         $lead = Lead::create($data + ['source' => $source, 'consented_at' => now()]);
-        $this->queueLeadEmails($lead);
         $formAnchor = $request->input('_form_placement') === 'hero' ? '#modulo-hero' : '#modulo';
         $redirect = redirect(route($landingRoute, ['success' => 1]).$formAnchor);
+
+        if ($isPreview) {
+            return $redirect;
+        }
+
+        $this->queueLeadEmails($lead);
         $trackWithoutConsent = config('services.meta.track_without_consent') === true;
         $consentId = $trackWithoutConsent ? null : app(MarketingConsent::class)->grantedId($request);
 
